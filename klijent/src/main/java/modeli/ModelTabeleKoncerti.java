@@ -8,10 +8,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.AbstractTableModel;
 
-/**
- *
- * @author Ana
- */
+
 public class ModelTabeleKoncerti extends AbstractTableModel implements Runnable {
 
     private ArrayList<Koncert> lista;

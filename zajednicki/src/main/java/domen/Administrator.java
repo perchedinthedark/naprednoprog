@@ -6,20 +6,54 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
- *
- * @author Korisnik
+ * Predstavlja administratora u sistemu, odgovornog za upravljanje pristupom i informacijama.
+ * Ova klasa proširuje {@code ApstraktniDomenskiObjekat} i komunicira sa bazom podataka
+ * kako bi rukovala podacima vezanim za administratora.
+ * 
+ * @author Ranko
  */
-public class Administrator extends ApstraktniDomenskiObjekat{
-    
+public class Administrator extends ApstraktniDomenskiObjekat {
+
+    /**
+     * Jedinstveni ID administratora.
+     */
     private Long administratorID;
+
+    /**
+     * Ime administratora.
+     */
     private String ime;
+
+    /**
+     * Prezime administratora.
+     */
     private String prezime;
+
+    /**
+     * Korisničko ime administratora koje se koristi za prijavu.
+     */
     private String username;
+
+    /**
+     * Lozinka administratora koja se koristi za prijavu.
+     */
     private String password;
 
+    /**
+     * Podrazumevani konstruktor koji inicijalizuje prazan Administrator objekat.
+     */
     public Administrator() {
     }
 
+    /**
+     * Parametrizovani konstruktor koji inicijalizuje Administrator sa datim vrednostima.
+     * 
+     * @param administratorID Jedinstveni ID administratora.
+     * @param ime Ime administratora.
+     * @param prezime Prezime administratora.
+     * @param username Korisničko ime administratora.
+     * @param password Lozinka administratora.
+     */
     public Administrator(Long administratorID, String ime, String prezime, String username, String password) {
         this.administratorID = administratorID;
         this.ime = ime;
@@ -27,29 +61,47 @@ public class Administrator extends ApstraktniDomenskiObjekat{
         this.username = username;
         this.password = password;
     }
-    
-    
-    
-    
 
+    /**
+     * Vraća naziv tabele iz baze podataka koja je povezana sa ovim domenom.
+     * 
+     * @return Naziv tabele kao string.
+     */
     @Override
     public String nazivTabele() {
         return " administrator ";
     }
 
+    /**
+     * Vraća alijas koji se koristi za ovu tabelu u SQL upitima.
+     * 
+     * @return Alijas za tabelu kao string.
+     */
     @Override
     public String alijas() {
         return " a ";
     }
 
+    /**
+     * Vraća bilo koje JOIN klauzule za SQL upite.
+     * 
+     * @return Prazan string jer nema povezivanja (JOIN) za tabelu administrator.
+     */
     @Override
     public String join() {
         return "";
     }
 
+    /**
+     * Konvertuje {@code ResultSet} dobijen iz baze podataka u listu 
+     * {@code Administrator} objekata.
+     * 
+     * @param rs {@code ResultSet} koji sadrži podatke iz baze podataka.
+     * @return Lista {@code ApstraktniDomenskiObjekat} koja sadrži administrator objekte.
+     * @throws SQLException ako dođe do greške prilikom obrade {@code ResultSet}.
+     */
     @Override
     public ArrayList<ApstraktniDomenskiObjekat> vratiListu(ResultSet rs) throws SQLException {
-        
         ArrayList<ApstraktniDomenskiObjekat> lista = new ArrayList<>();
 
         while (rs.next()) {
@@ -64,79 +116,155 @@ public class Administrator extends ApstraktniDomenskiObjekat{
         return lista;
     }
 
+    /**
+     * Vraća nazive kolona koje će biti korišćene za unos podataka u bazu.
+     * 
+     * @return String koji sadrži nazive kolona za unos.
+     */
     @Override
     public String koloneZaInsert() {
-        
-         return " (Ime, Prezime, Username, Password) ";
+        return " (Ime, Prezime, Username, Password) ";
     }
 
+    /**
+     * Vraća uslov koji će biti korišćen u WHERE klauzuli SQL upita.
+     * 
+     * @return String koji predstavlja uslov baziran na ID administratora.
+     */
     @Override
-    public String uslov() { 
+    public String uslov() {
         return " AdministratorID = " + administratorID;
     }
 
+    /**
+     * Vraća vrednosti koje će biti unete u bazu podataka prilikom kreiranja novog administratora.
+     * 
+     * @return String koji sadrži vrednosti za unos.
+     */
     @Override
     public String vrednostiZaInsert() {
-          return "'" + ime + "', '" + prezime + "', "
+        return "'" + ime + "', '" + prezime + "', "
                 + "'" + username + "', '" + password + "'";
     }
 
+    /**
+     * Vraća vrednosti koje će biti ažurirane u bazi podataka za postojećeg administratora.
+     * 
+     * @return String koji sadrži vrednosti za ažuriranje.
+     */
     @Override
     public String vrednostiZaUpdate() {
-        
         return " Ime = '" + ime + "', Prezime = '" + prezime + "', "
                 + "Username = '" + username + "', Password = '" + password + "' ";
     }
 
+    /**
+     * Vraća uslov koji će biti korišćen u SELECT klauzuli za preuzimanje podataka.
+     * 
+     * @return Prazan string, što znači da se ne primenjuje specifičan uslov.
+     */
     @Override
     public String uslovZaSelect() {
-        
-     return "";   
+        return "";
     }
 
+    /**
+     * Vraća jedinstveni ID administratora.
+     * 
+     * @return ID administratora.
+     */
     public Long getAdministratorID() {
         return administratorID;
     }
 
+    /**
+     * Postavlja jedinstveni ID administratora.
+     * 
+     * @param administratorID ID administratora.
+     */
     public void setAdministratorID(Long administratorID) {
         this.administratorID = administratorID;
     }
 
+    /**
+     * Vraća ime administratora.
+     * 
+     * @return Ime administratora.
+     */
     public String getIme() {
         return ime;
     }
 
+    /**
+     * Postavlja ime administratora.
+     * 
+     * @param ime Ime administratora.
+     */
     public void setIme(String ime) {
         this.ime = ime;
     }
 
+    /**
+     * Vraća prezime administratora.
+     * 
+     * @return Prezime administratora.
+     */
     public String getPrezime() {
         return prezime;
     }
 
+    /**
+     * Postavlja prezime administratora.
+     * 
+     * @param prezime Prezime administratora.
+     */
     public void setPrezime(String prezime) {
         this.prezime = prezime;
     }
 
+    /**
+     * Vraća korisničko ime administratora.
+     * 
+     * @return Korisničko ime administratora.
+     */
     public String getUsername() {
         return username;
     }
 
+    /**
+     * Postavlja korisničko ime administratora.
+     * 
+     * @param username Korisničko ime administratora.
+     */
     public void setUsername(String username) {
         this.username = username;
     }
 
+    /**
+     * Vraća lozinku administratora.
+     * 
+     * @return Lozinka administratora.
+     */
     public String getPassword() {
         return password;
     }
 
+    /**
+     * Postavlja lozinku administratora.
+     * 
+     * @param password Lozinka administratora.
+     */
     public void setPassword(String password) {
         this.password = password;
     }
-    
+
+    /**
+     * Vraća string reprezentaciju objekta administratora, prikazujući ime i prezime.
+     * 
+     * @return String u formatu "{@code ime} {@code prezime}".
+     */
     @Override
     public String toString() {
         return ime + " " + prezime;
     }
 }
-
