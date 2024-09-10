@@ -8,14 +8,21 @@ import java.util.Date;
 import so.ApstraktneSO;
 
 /**
- *
- * @author Korisnik
+ * Klasa SOIzmeniKoncert predstavlja konkretnu sistemsku operaciju za izmenu koncerta u bazi podataka.
+ * Nasleđuje apstraktnu klasu ApstraktneSO i implementira metode za validaciju i izvršenje.
+ * 
+ * @author Ranko
  */
-public class SOIzmeniKoncert extends ApstraktneSO{
+public class SOIzmeniKoncert extends ApstraktneSO {
 
+    /**
+     * Validira prosleđeni objekat. Proverava da li je objekat instanca klase Koncert i vrši dodatne provere.
+     * 
+     * @param ado Objekat koji se validira
+     * @throws Exception Ako validacija ne uspe ili neki od uslova nije ispunjen
+     */
     @Override
     protected void validate(ApstraktniDomenskiObjekat ado) throws Exception {
-        
         if (!(ado instanceof Koncert)) {
             throw new Exception("Prosledjeni objekat nije instanca klase Koncert!");
         }
@@ -30,43 +37,30 @@ public class SOIzmeniKoncert extends ApstraktneSO{
             throw new Exception("Datum zavrsetka mora biti posle datum pocetka!");
         }
 
-        if (k.getKapacitetKoncerta()< 2 || k.getKapacitetKoncerta() > 100) {
+        if (k.getKapacitetKoncerta() < 2 || k.getKapacitetKoncerta() > 100) {
             throw new Exception("Kapacitet grupe mora biti izmedju 2 i 100!");
         }
 
         if (k.getIzvodjaci().size() < 2) {
             throw new Exception("Koncert mora imati minimalno 2 izvodjaca!");
         }
-        
     }
 
+    /**
+     * Izvršava operaciju izmene koncerta i izvođača u bazi podataka.
+     * 
+     * @param ado Objekat klase Koncert
+     * @throws Exception Ako dođe do greške tokom izvršenja
+     */
     @Override
     protected void execute(ApstraktniDomenskiObjekat ado) throws Exception {
-        // updatujemo grupu
         DBBroker.getInstance().izmeni(ado);
 
         Koncert k = (Koncert) ado;
-        // obrisemo stare ucenike
-        // sledeca linija koda izvrsava naredbu
-        // DELETE FROM UCENIK WHERE GRUPAID = nasID
-        // cime se brisu SVI ucenici nase grupe ODJEDNOM !!!
         DBBroker.getInstance().obrisi(k.getIzvodjaci().get(0));
 
-        // dodamo nove
         for (Izvodjac i : k.getIzvodjaci()) {
             DBBroker.getInstance().dodaj(i);
         }
-        
-        // ovaj nacin nije optimalan, mogu da te pitaju sta ako imas 
-        // milion stavki, onda bi milion brisala i milion novih dodavala
-        // sto oduzima mnogo resursa
-        // optimalan nacin je da imamo uvid u to (neki status) koja stavka je 
-        // obrisana, koja izmenjena, koja dodata i te odredjene
-        // da brisemo, menjamo i dodajemo
-        // ali mi smo odradili na ovaj daleko laksi i brzi nacin
-        // ako te pitaju za bolji nacin i zasto si ovako radila, samo ovo ispricas
-        
     }
-    }
-    
-
+}

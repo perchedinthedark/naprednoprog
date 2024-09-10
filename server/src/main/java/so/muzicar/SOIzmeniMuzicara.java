@@ -7,11 +7,19 @@ import java.util.ArrayList;
 import so.ApstraktneSO;
 
 /**
- *
- * @author Korisnik
+ * Klasa SOIzmeniMuzicara predstavlja konkretnu sistemsku operaciju za izmenu muzičara u bazi podataka.
+ * Nasleđuje apstraktnu klasu ApstraktneSO i implementira metode za validaciju i izvršenje.
+ * 
+ * @author Ranko
  */
-public class SOIzmeniMuzicara extends ApstraktneSO{
+public class SOIzmeniMuzicara extends ApstraktneSO {
 
+    /**
+     * Validira prosleđeni objekat. Proverava da li je objekat instanca klase Muzicar i vrši dodatne provere.
+     * 
+     * @param ado Objekat koji se validira
+     * @throws Exception Ako validacija ne uspe ili neki od uslova nije ispunjen
+     */
     @Override
     protected void validate(ApstraktniDomenskiObjekat ado) throws Exception {
         if (!(ado instanceof Muzicar)) {
@@ -29,9 +37,14 @@ public class SOIzmeniMuzicara extends ApstraktneSO{
         }
     }
 
+    /**
+     * Izvršava operaciju izmene muzičara u bazi podataka.
+     * 
+     * @param ado Objekat klase Muzicar
+     * @throws Exception Ako dođe do greške tokom izvršenja
+     */
     @Override
     protected void execute(ApstraktniDomenskiObjekat ado) throws Exception {
-         DBBroker.getInstance().izmeni(ado);
+        DBBroker.getInstance().izmeni(ado);
     }
-    
 }

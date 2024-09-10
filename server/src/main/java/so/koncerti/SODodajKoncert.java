@@ -10,14 +10,21 @@ import java.util.Date;
 import so.ApstraktneSO;
 
 /**
- *
- * @author Korisnik
+ * Klasa SODodajKoncert predstavlja konkretnu sistemsku operaciju za dodavanje koncerta u bazu podataka.
+ * Nasleđuje apstraktnu klasu ApstraktneSO i implementira metode za validaciju i izvršenje.
+ * 
+ * @author Ranko
  */
-public class SODodajKoncert extends ApstraktneSO{
+public class SODodajKoncert extends ApstraktneSO {
 
+    /**
+     * Validira prosleđeni objekat. Proverava da li je objekat instanca klase Koncert i vrši dodatne provere.
+     * 
+     * @param ado Objekat koji se validira
+     * @throws Exception Ako validacija ne uspe ili neki od uslova nije ispunjen
+     */
     @Override
     protected void validate(ApstraktniDomenskiObjekat ado) throws Exception {
-        
         if (!(ado instanceof Koncert)) {
             throw new Exception("Prosledjeni objekat nije instanca klase Koncert!");
         }
@@ -32,7 +39,7 @@ public class SODodajKoncert extends ApstraktneSO{
             throw new Exception("Datum zavrsetka mora biti posle datum pocetka!");
         }
 
-        if (k.getKapacitetKoncerta()< 2 || k.getKapacitetKoncerta() > 100) {
+        if (k.getKapacitetKoncerta() < 2 || k.getKapacitetKoncerta() > 100) {
             throw new Exception("Kapacitet koncerta mora biti izmedju 2 i 100!");
         }
 
@@ -41,29 +48,29 @@ public class SODodajKoncert extends ApstraktneSO{
         }
     }
 
+    /**
+     * Izvršava operaciju dodavanja koncerta i izvođača u bazu podataka.
+     * 
+     * @param ado Objekat klase Koncert
+     * @throws Exception Ako dođe do greške tokom izvršenja
+     */
     @Override
     protected void execute(ApstraktniDomenskiObjekat ado) throws Exception {
-        
-        // vracamo ps sa generisanim kljucem
+        // Vraćamo PreparedStatement sa generisanim ključem
         PreparedStatement ps = DBBroker.getInstance().dodaj(ado);
 
-        // uzimamo taj kljuc
+        // Uzimamo generisani ključ (ID koncerta)
         ResultSet tableKeys = ps.getGeneratedKeys();
         tableKeys.next();
         Long koncertID = tableKeys.getLong(1);
 
-        // setujemo ga za nasu grupu
+        // Postavljamo koncertID za sve izvođače koji učestvuju na koncertu
         Koncert k = (Koncert) ado;
         k.setKoncertID(koncertID);
 
-        // dodajemo redom ucenika po ucenika
-        // nakon sto setujemo da potice iz nase grupe
         for (Izvodjac i : k.getIzvodjaci()) {
             i.setKoncert(k);
             DBBroker.getInstance().dodaj(i);
         }
-
     }
-    }
-    
-
+}

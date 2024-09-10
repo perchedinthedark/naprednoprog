@@ -7,14 +7,22 @@ import java.util.ArrayList;
 import so.ApstraktneSO;
 
 /**
- *
- * @author Korisnik
+ * Klasa SODodajMuzicara predstavlja konkretnu sistemsku operaciju za dodavanje muzičara u bazu podataka.
+ * Nasleđuje apstraktnu klasu ApstraktneSO i implementira metode za validaciju i izvršenje.
+ * 
+ * @author Ranko
  */
-public class SODodajMuzicara extends ApstraktneSO{
+public class SODodajMuzicara extends ApstraktneSO {
 
+    /**
+     * Validira prosleđeni objekat. Proverava da li je objekat instanca klase Muzicar i vrši dodatne provere.
+     * 
+     * @param ado Objekat koji se validira
+     * @throws Exception Ako validacija ne uspe ili neki od uslova nije ispunjen
+     */
     @Override
     protected void validate(ApstraktniDomenskiObjekat ado) throws Exception {
-          if (!(ado instanceof Muzicar)) {
+        if (!(ado instanceof Muzicar)) {
             throw new Exception("Prosledjeni objekat nije instanca klase Muzicar!");
         }
 
@@ -29,9 +37,14 @@ public class SODodajMuzicara extends ApstraktneSO{
         }
     }
 
+    /**
+     * Izvršava operaciju dodavanja muzičara u bazu podataka.
+     * 
+     * @param ado Objekat klase Muzicar
+     * @throws Exception Ako dođe do greške tokom izvršenja
+     */
     @Override
-    protected void execute(ApstraktniDomenskiObjekat ado) throws Exception { 
+    protected void execute(ApstraktniDomenskiObjekat ado) throws Exception {
         DBBroker.getInstance().dodaj(ado);
     }
-    
 }

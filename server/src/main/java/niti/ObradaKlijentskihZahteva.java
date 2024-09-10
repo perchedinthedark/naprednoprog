@@ -13,17 +13,29 @@ import konstante.StatusServerskogOdgovora;
 import konstante.Operacije;
 
 /**
- *
- * @author Ana
+ * Klasa ObradaKlijentskihZahteva predstavlja nit koja obrađuje zahteve klijenata servera.
+ * Svaki klijent se povezuje putem soketa, a svaki zahtev klijenta se obrađuje u posebnoj niti.
+ * Ova klasa koristi instancu klase Kontroler za izvršenje poslovnih operacija i šalje odgovor klijentu.
+ * 
+ * @author Ranko
  */
 public class ObradaKlijentskihZahteva extends Thread {
 
+    /** Soket putem kog se klijent povezuje na server */
     private Socket socket;
 
+    /**
+     * Konstruktor klase ObradaKlijentskihZahteva koji postavlja soket.
+     * 
+     * @param socket Soket za komunikaciju sa klijentom
+     */
     ObradaKlijentskihZahteva(Socket socket) {
         this.socket = socket;
     }
 
+    /**
+     * Metoda koja se izvršava kada se pokrene nit. Prima i obrađuje klijentske zahteve sve dok soket nije zatvoren.
+     */
     @Override
     public void run() {
         try {
@@ -39,6 +51,12 @@ public class ObradaKlijentskihZahteva extends Thread {
         }
     }
 
+    /**
+     * Obrađuje klijentski zahtev na osnovu operacije i vraća serverski odgovor.
+     * 
+     * @param kz Klijentski zahtev
+     * @return ServerskiOdgovor koji sadrži rezultat obrade zahteva
+     */
     private ServerskiOdgovor handleRequest(KlijentskiZahtev kz) {
         ServerskiOdgovor serverskiOdgovor = new ServerskiOdgovor(null, null, StatusServerskogOdgovora.Success);
         try {
@@ -97,5 +115,4 @@ public class ObradaKlijentskihZahteva extends Thread {
         }
         return serverskiOdgovor;
     }
-
 }
