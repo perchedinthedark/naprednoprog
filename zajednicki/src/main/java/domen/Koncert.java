@@ -4,6 +4,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
+import org.json.JSONObject;
+import org.json.JSONArray;
 
 /**
  * Klasa Koncert predstavlja entitet koncerta sa svim relevantnim informacijama 
@@ -347,5 +349,31 @@ public class Koncert extends ApstraktniDomenskiObjekat {
     @Override
     public String uslovZaSelect() {
         return "";
+    }
+    
+
+    /**
+     * Konvertuje ovaj objekat koncerta u JSON reprezentaciju.
+     *
+     * @return {@link JSONObject} koji predstavlja ovaj koncert, uključujući detalje o koncertu i izvođače.
+     */
+    public JSONObject toJSON() {
+        JSONObject json = new JSONObject();
+        json.put("koncertID", koncertID);
+        json.put("datumPocetka", datumPocetka.toString());
+        json.put("datumZavrsetka", datumZavrsetka.toString());
+        json.put("kapacitet", kapacitetKoncerta);
+        json.put("sponzor", sponzor.getNaziv());
+        json.put("bina", bina.getNaziv());
+
+        JSONArray izvodjaciArray = new JSONArray();
+        for (Izvodjac izvodjac : izvodjaci) {
+            JSONObject izvodjacJSON = new JSONObject();
+            izvodjacJSON.put("ime", izvodjac.getMuzicar().getIme());
+            izvodjacJSON.put("instrument", izvodjac.getMuzicar().getInstrument());
+            izvodjaciArray.put(izvodjacJSON);
+        }
+        json.put("izvodjaci", izvodjaciArray);
+        return json;
     }
 }

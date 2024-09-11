@@ -53,5 +53,8 @@ public interface Operacije {
 
     /** Operacija za vraćanje liste sve opreme */
     public static final int VRATI_OPREME = 13;
+    
+    /** Operacija za čuvanje koncerta u JSON formatu */
+    public static final int SACUVAJ_KONCERT_JSON = 14;
 
 }

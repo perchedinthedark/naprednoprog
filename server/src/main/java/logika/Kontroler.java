@@ -23,6 +23,8 @@ import so.muzicar.SOObrisiMuzicara;
 import so.muzicar.SOVratiMuzicare;
 import so.oprema.SOVratiOpreme;
 import so.sponzor.SOVratiSponzore;
+import org.json.JSONObject;
+import java.io.FileWriter;
 
 /**
  * Klasa Kontroler implementira Singleton obrazac i predstavlja centralni deo poslovne logike sistema.
@@ -216,6 +218,19 @@ public class Kontroler {
         SOVratiOpreme so = new SOVratiOpreme();
         so.templateExecute(new Oprema());
         return so.getLista();
+    }
+    
+    /**
+     * Čuva podatke o koncertu u JSON fajl.
+     *
+     * @param koncert Koncert koji treba sačuvati.
+     * @throws Exception Ako dođe do greške prilikom pisanja u fajl.
+     */
+    public void sacuvajKoncertUJSON(Koncert koncert) throws Exception {
+        JSONObject jsonKoncert = koncert.toJSON();
+        try (FileWriter file = new FileWriter("koncert_" + koncert.getKoncertID() + ".json")) {
+            file.write(jsonKoncert.toString(4)); // Formatira JSON sa uvlačenjem od 4 razmaka
+        }
     }
 }
 

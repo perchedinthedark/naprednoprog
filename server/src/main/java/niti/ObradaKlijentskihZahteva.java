@@ -101,6 +101,11 @@ public class ObradaKlijentskihZahteva extends Thread {
                     serverskiOdgovor.setOdgovor(Kontroler.getInstance().
                             vratiIzvodjace((Koncert) kz.getParametar()));
                     break;
+                case Operacije.SACUVAJ_KONCERT_JSON:
+                    Koncert koncert = (Koncert) kz.getParametar();
+                    Kontroler.getInstance().sacuvajKoncertUJSON(koncert);
+                    serverskiOdgovor.setStatusOdgovora(StatusServerskogOdgovora.Success);
+                    break;
                 case Operacije.LOGIN:
                     Administrator administrator = (Administrator) kz.getParametar();
                     Administrator ulogovani = Kontroler.getInstance().login(administrator);

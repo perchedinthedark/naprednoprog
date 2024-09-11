@@ -188,6 +188,17 @@ public class Komunikacija {
     public ArrayList<Izvodjac> vratiIzvodjace(Koncert koncert) throws Exception {
         return (ArrayList<Izvodjac>) posaljiZahtev(Operacije.VRATI_IZVODJACE, koncert);
     }
+    
+    
+    /**
+     * Šalje koncert serveru da ga sačuva u JSON fajl.
+     *
+     * @param koncert Koncert koji treba sačuvati.
+     * @throws Exception Ako dođe do greške prilikom komunikacije sa serverom.
+     */
+    public void sacuvajKoncertUJSON(Koncert koncert) throws Exception {
+        posaljiZahtev(Operacije.SACUVAJ_KONCERT_JSON, koncert);
+    }
 
     /**
      * Šalje zahtev serveru i vraća odgovor.

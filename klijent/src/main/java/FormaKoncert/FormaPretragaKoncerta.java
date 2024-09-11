@@ -1,6 +1,8 @@
 package FormaKoncert;
 
 import domen.Koncert;
+import kontroler.Komunikacija;
+
 import javax.swing.JOptionPane;
 import modeli.ModelTabeleKoncerti;
 
@@ -42,6 +44,7 @@ public class FormaPretragaKoncerta extends javax.swing.JDialog {
         txtPretraga = new javax.swing.JTextField();
         btnDetalji = new javax.swing.JButton();
         btnPretraga = new javax.swing.JButton();
+        btnSacuvajJSON = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -76,6 +79,13 @@ public class FormaPretragaKoncerta extends javax.swing.JDialog {
                 btnPretragaActionPerformed(evt);
             }
         });
+        
+        btnSacuvajJSON.setText("Sačuvaj u JSON");
+        btnSacuvajJSON.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSacuvajJSONActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -97,23 +107,26 @@ public class FormaPretragaKoncerta extends javax.swing.JDialog {
                         .addComponent(txtPretraga, javax.swing.GroupLayout.PREFERRED_SIZE, 451, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(btnPretraga)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnSacuvajJSON)
                         .addGap(0, 494, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtPretraga, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1)
-                    .addComponent(btnPretraga))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26)
-                .addComponent(btnDetalji)
-                .addGap(16, 16, 16))
-        );
+        	    layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        	    .addGroup(layout.createSequentialGroup()
+        	        .addContainerGap()
+        	        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+        	            .addComponent(txtPretraga, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        	            .addComponent(jLabel1)
+        	            .addComponent(btnPretraga)
+        	            .addComponent(btnSacuvajJSON))
+        	        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)                
+        	        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+        	        .addGap(26, 26, 26)
+        	        .addComponent(btnDetalji)
+        	        .addGap(16, 16, 16))
+        	);
 
         pack();
     }// </editor-fold>                        
@@ -145,11 +158,32 @@ public class FormaPretragaKoncerta extends javax.swing.JDialog {
         String param = txtPretraga.getText();
         ((ModelTabeleKoncerti) tblKoncerti.getModel()).setParametar(param);
         JOptionPane.showMessageDialog(this, "Sistem je nasao koncerte po zadatoj vrednosti");
-    }                                           
+    }      
+    
+    
+    /**
+     * Metoda za čuvanje izabranog koncerta u JSON fajl.
+     */
+    private void btnSacuvajJSONActionPerformed(java.awt.event.ActionEvent evt) {                                               
+        int row = tblKoncerti.getSelectedRow();
+        if (row >= 0) {
+            Koncert koncert = ((ModelTabeleKoncerti) tblKoncerti.getModel()).getSelectedKoncert(row);
+            try {
+                Komunikacija.getInstance().sacuvajKoncertUJSON(koncert);
+                JOptionPane.showMessageDialog(this, "Koncert je uspešno sačuvan u JSON fajl.");
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "Greška prilikom čuvanja koncerta u JSON fajl.");
+                ex.printStackTrace();
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Molimo izaberite koncert za čuvanje.");
+        }
+    }      
 
     // Variables declaration - do not modify                     
     private javax.swing.JButton btnDetalji;
     private javax.swing.JButton btnPretraga;
+    private javax.swing.JButton btnSacuvajJSON;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblKoncerti;
