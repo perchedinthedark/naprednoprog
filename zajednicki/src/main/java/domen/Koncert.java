@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import org.json.JSONObject;
 import org.json.JSONArray;
+import java.sql.Timestamp;
 
 /**
  * Klasa Koncert predstavlja entitet koncerta sa svim relevantnim informacijama 
@@ -22,10 +23,10 @@ public class Koncert extends ApstraktniDomenskiObjekat {
     private Long koncertID;
 
     /** Datum i vreme početka koncerta */
-    private Date datumPocetka;
+    private Timestamp datumPocetka;
 
     /** Datum i vreme završetka koncerta */
-    private Date datumZavrsetka;
+    private Timestamp datumZavrsetka;
 
     /** Kapacitet koncerta (maksimalan broj posetilaca) */
     private int kapacitetKoncerta;
@@ -60,7 +61,7 @@ public class Koncert extends ApstraktniDomenskiObjekat {
      * @param administrator Administrator koncerta
      * @param izvodjaci Lista izvođača na koncertu
      */
-    public Koncert(Long koncertID, Date datumPocetka, Date datumZavrsetka, int kapacitetKoncerta, Sponzor sponzor, Bina bina, Administrator administrator, ArrayList<Izvodjac> izvodjaci) {
+    public Koncert(Long koncertID, Timestamp datumPocetka, Timestamp datumZavrsetka, int kapacitetKoncerta, Sponzor sponzor, Bina bina, Administrator administrator, ArrayList<Izvodjac> izvodjaci) {
         this.koncertID = koncertID;
         this.datumPocetka = datumPocetka;
         this.datumZavrsetka = datumZavrsetka;
@@ -94,7 +95,7 @@ public class Koncert extends ApstraktniDomenskiObjekat {
      * 
      * @return Datum i vreme početka koncerta
      */
-    public Date getDatumPocetka() {
+    public Timestamp getDatumPocetka() {
         return datumPocetka;
     }
 
@@ -103,7 +104,7 @@ public class Koncert extends ApstraktniDomenskiObjekat {
      * 
      * @param datumPocetka Datum i vreme početka koncerta
      */
-    public void setDatumPocetka(Date datumPocetka) {
+    public void setDatumPocetka(Timestamp datumPocetka) {
         this.datumPocetka = datumPocetka;
     }
 
@@ -112,7 +113,7 @@ public class Koncert extends ApstraktniDomenskiObjekat {
      * 
      * @return Datum i vreme završetka koncerta
      */
-    public Date getDatumZavrsetka() {
+    public Timestamp getDatumZavrsetka() {
         return datumZavrsetka;
     }
 
@@ -121,7 +122,7 @@ public class Koncert extends ApstraktniDomenskiObjekat {
      * 
      * @param datumZavrsetka Datum i vreme završetka koncerta
      */
-    public void setDatumZavrsetka(Date datumZavrsetka) {
+    public void setDatumZavrsetka(Timestamp datumZavrsetka) {
         this.datumZavrsetka = datumZavrsetka;
     }
 
@@ -276,15 +277,15 @@ public class Koncert extends ApstraktniDomenskiObjekat {
                     rs.getString("Vlasnik"));
 
             Bina b = new Bina(rs.getLong("BinaID"),
-                    rs.getString("naziv"),
+                    rs.getString("BinaNaziv"),
                     rs.getInt("kapacitet"), l, o);
             
             Sponzor s = new Sponzor(rs.getLong("SponzorID"),
                     rs.getString("Naziv"), rs.getDouble("IznosKontribucije"),
                     rs.getString("TipSponzorstva"));
             
-            Koncert k = new Koncert(rs.getLong("koncertID"), rs.getDate("datumPocetka"),
-                    rs.getDate("datumZavrsetka"), rs.getInt("kapacitetKoncerta"),
+            Koncert k = new Koncert(rs.getLong("koncertID"), rs.getTimestamp("datumPocetka"),
+                    rs.getTimestamp("datumZavrsetka"), rs.getInt("kapacitetKoncerta"),
                     s, b, a, null);
 
             lista.add(k);
@@ -322,8 +323,8 @@ public class Koncert extends ApstraktniDomenskiObjekat {
      */
     @Override
     public String vrednostiZaInsert() {
-        return "'" + new java.sql.Date(datumPocetka.getTime()) + "', "
-                + "'" + new java.sql.Date(datumZavrsetka.getTime()) + "', "
+        return "'" + new java.sql.Timestamp(datumPocetka.getTime()) + "', "
+                + "'" + new java.sql.Timestamp(datumZavrsetka.getTime()) + "', "
                 + " " + kapacitetKoncerta + ", " + sponzor.getSponzorID()
                 + ", " + bina.getBinaID() + ", " + administrator.getAdministratorID();
     }
@@ -335,8 +336,8 @@ public class Koncert extends ApstraktniDomenskiObjekat {
      */
     @Override
     public String vrednostiZaUpdate() {
-        return " datumPocetka = '" + new java.sql.Date(datumPocetka.getTime()) + "', "
-                + "datumZavrsetka = '" + new java.sql.Date(datumZavrsetka.getTime()) + "', "
+        return " datumPocetka = '" + new java.sql.Timestamp(datumPocetka.getTime()) + "', "
+                + "datumZavrsetka = '" + new java.sql.Timestamp(datumZavrsetka.getTime()) + "', "
                 + "sponzorID = " + sponzor.getSponzorID() + ", "
                 + "kapacitetKoncerta = " + kapacitetKoncerta;
     }
@@ -360,20 +361,26 @@ public class Koncert extends ApstraktniDomenskiObjekat {
     public JSONObject toJSON() {
         JSONObject json = new JSONObject();
         json.put("koncertID", koncertID);
-        json.put("datumPocetka", datumPocetka.toString());
-        json.put("datumZavrsetka", datumZavrsetka.toString());
+        json.put("datumPocetka", datumPocetka != null ? datumPocetka.toString() : JSONObject.NULL);
+        json.put("datumZavrsetka", datumZavrsetka != null ? datumZavrsetka.toString() : JSONObject.NULL);
         json.put("kapacitet", kapacitetKoncerta);
-        json.put("sponzor", sponzor.getNaziv());
-        json.put("bina", bina.getNaziv());
+        json.put("sponzor", sponzor != null ? sponzor.getNaziv() : JSONObject.NULL);
+        json.put("bina", bina != null ? bina.getNaziv() : JSONObject.NULL);
 
+        // Handle izvodjaci (Check if it's null)
         JSONArray izvodjaciArray = new JSONArray();
-        for (Izvodjac izvodjac : izvodjaci) {
-            JSONObject izvodjacJSON = new JSONObject();
-            izvodjacJSON.put("ime", izvodjac.getMuzicar().getIme());
-            izvodjacJSON.put("instrument", izvodjac.getMuzicar().getInstrument());
-            izvodjaciArray.put(izvodjacJSON);
+        if (izvodjaci != null) {
+            for (Izvodjac izvodjac : izvodjaci) {
+                if (izvodjac != null && izvodjac.getMuzicar() != null) {
+                    JSONObject izvodjacJSON = new JSONObject();
+                    izvodjacJSON.put("ime", izvodjac.getMuzicar().getIme());
+                    izvodjacJSON.put("instrument", izvodjac.getMuzicar().getInstrument());
+                    izvodjaciArray.put(izvodjacJSON);
+                }
+            }
         }
         json.put("izvodjaci", izvodjaciArray);
+        
         return json;
     }
 }

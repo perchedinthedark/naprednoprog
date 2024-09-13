@@ -14,6 +14,7 @@ import java.util.logging.Logger;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import modeli.ModelTabeleIzvodjaci;
+import java.sql.Timestamp;
 
 /**
  * FormaDetaljiKoncerta je dijalog forma koja prikazuje detalje o izabranom koncertu.
@@ -44,11 +45,24 @@ public class FormaDetaljiKoncerta extends javax.swing.JDialog {
         popuniSponzore();
         popuniMuzicare();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        txtDatumKraja.setText(sdf.format(koncert.getDatumZavrsetka()));
-        txtDatumPocetka.setText(sdf.format(koncert.getDatumPocetka()));
+        txtDatumKraja.setValue(koncert.getDatumZavrsetka());
+        txtDatumPocetka.setValue(koncert.getDatumPocetka());
+
+         
+       txtDatumKraja.repaint();
+        txtDatumPocetka.repaint();
+
+         
+        // txtDatumPocetka.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(
+        // new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss"))));
+        // txtDatumKraja.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(
+        // new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss"))));
         
-        txtDatumPocetka.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss"))));
-        txtDatumKraja.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss"))));
+        txtDatumPocetka.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(
+         new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss"))));
+
+         txtDatumKraja.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(
+         new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss"))));
         
         tblIzvodjaci.setModel(new ModelTabeleIzvodjaci(koncert));
         
@@ -392,8 +406,10 @@ public class FormaDetaljiKoncerta extends javax.swing.JDialog {
             
             Sponzor sponzor = (Sponzor) cmbSponzor.getSelectedItem();
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            Date datumPocetka = sdf.parse(txtDatumPocetka.getText());
-            Date datumZavrsetka = sdf.parse(txtDatumKraja.getText());
+            Date parsedDate = sdf.parse(txtDatumPocetka.getText());
+            Timestamp datumPocetka = new Timestamp(parsedDate.getTime());
+            Date parsedAgain = sdf.parse(txtDatumKraja.getText());
+            Timestamp datumZavrsetka = new Timestamp(parsedAgain.getTime());
             int kapacitet = Integer.parseInt(txtKapacitet.getText());
             
             ModelTabeleIzvodjaci tm = (ModelTabeleIzvodjaci) tblIzvodjaci.getModel();

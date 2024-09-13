@@ -3,6 +3,7 @@ package domen;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.sql.Timestamp;
 
 /**
  * Klasa koja predstavlja entitet Izvođač u okviru koncerta. 
@@ -187,15 +188,15 @@ public class Izvodjac extends ApstraktniDomenskiObjekat {
                     rs.getString("Vlasnik"));
 
             Bina b = new Bina(rs.getLong("BinaID"),
-                    rs.getString("Naziv"),
+                    rs.getString("BinaNaziv"),
                     rs.getInt("Kapacitet"), l, o);
             
             Sponzor s = new Sponzor(rs.getLong("SponzorID"),
                     rs.getString("Naziv"), rs.getDouble("IznosKontribucije"),
                     rs.getString("TipSponzorstva"));
 
-            Koncert k = new Koncert(rs.getLong("KoncertID"), rs.getDate("DatumPocetka"),
-                    rs.getDate("DatumZavrsetka"), rs.getInt("KapacitetKoncerta"),
+            Koncert k = new Koncert(rs.getLong("KoncertID"), rs.getTimestamp("DatumPocetka"),
+                    rs.getTimestamp("DatumZavrsetka"), rs.getInt("KapacitetKoncerta"),
                     s, b, a, null);
             
             Muzicar m = new Muzicar(rs.getLong("MuzicarID"),

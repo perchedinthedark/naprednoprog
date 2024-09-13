@@ -19,6 +19,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import modeli.ModelTabeleIzvodjaci;
 import sesija.Sesija;
+import java.sql.Timestamp;
 
 /**
  * KlijentskaForma predstavlja glavnu formu koja se otvara nakon prijavljivanja.
@@ -443,14 +444,17 @@ public class KlijentskaForma extends javax.swing.JFrame {
             Bina bina = (Bina) cmbBina.getSelectedItem();
             Sponzor sponzor = (Sponzor) cmbSponzor.getSelectedItem();
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            Date vremePocetka = sdf.parse(txtVremePocetka.getText());
-            Date vremeZavrsetka = sdf.parse(txtVremeKraja.getText());
+            Date parsedDate = sdf.parse(txtVremePocetka.getText());
+            Timestamp vremePocetka = new Timestamp(parsedDate.getTime());
+            Date parsedAgain = sdf.parse(txtVremeKraja.getText());
+            Timestamp vremeZavrsetka = new Timestamp(parsedAgain.getTime());
             int kapacitet = Integer.parseInt(txtKapacitet.getText());
 
             ModelTabeleIzvodjaci tm = (ModelTabeleIzvodjaci) tblIzvodjaci.getModel();
 
             Koncert k = new Koncert(null, vremePocetka, vremeZavrsetka, kapacitet,
                     sponzor, bina, ulogovani, tm.getLista());
+
 
             Komunikacija.getInstance().dodajKoncert(k);
             txtVremeKraja.setText("");

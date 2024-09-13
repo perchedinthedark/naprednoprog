@@ -202,7 +202,7 @@ public class Bina extends ApstraktniDomenskiObjekat {
                     rs.getString("Tip"), rs.getString("Kontakt"),
                     rs.getString("Vlasnik"));
 
-            Bina b = new Bina(rs.getLong("BinaID"), rs.getString("naziv"),
+            Bina b = new Bina(rs.getLong("BinaID"), rs.getString("BinaNaziv"),
                     rs.getInt("kapacitet"), l, o);
 
             lista.add(b);
