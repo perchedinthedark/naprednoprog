@@ -66,6 +66,10 @@ public class DBBroker {
         }
         return instance;
     }
+    
+    public static void setInstance(DBBroker dbBroker) {
+        instance = dbBroker;
+    }
 
     /**
      * Vraća listu objekata iz baze podataka na osnovu zadatog entiteta.
