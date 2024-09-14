@@ -25,9 +25,9 @@ public class SOVratiKoncerteTest {
     public void setUp() throws Exception {
         soVratiKoncerte = new SOVratiKoncerte();
         mockDBBroker = mock(DBBroker.class);
-        koncert = new Koncert(); // Example Koncert object
+        koncert = new Koncert(); 
 
-        // Use reflection to set the private instance field in DBBroker
+       
         Field instanceField = DBBroker.class.getDeclaredField("instance");
         instanceField.setAccessible(true); 
         instanceField.set(null, mockDBBroker); 
@@ -47,27 +47,27 @@ public class SOVratiKoncerteTest {
 
     @Test
     public void testExecuteWithValidKoncert() throws Exception {
-        // Mock the behavior of DBBroker to return a list of Koncert objects
+      
         ArrayList<ApstraktniDomenskiObjekat> mockKoncertList = new ArrayList<>();
         mockKoncertList.add(koncert);
         when(mockDBBroker.vrati(koncert)).thenReturn(mockKoncertList);
 
-        // Execute the system operation
+       
         soVratiKoncerte.execute(koncert);
 
-        // Verify that the list of Koncerts is populated
+       
         ArrayList<Koncert> listaKoncerata = soVratiKoncerte.getLista();
         assertNotNull(listaKoncerata);
         assertEquals(1, listaKoncerata.size());
         assertEquals(koncert, listaKoncerata.get(0));
 
-        // Verify that DBBroker's vrati method was called with the correct argument
+       
         verify(mockDBBroker, times(1)).vrati(koncert);
     }
 
     @Test
     public void testExecuteWithException() throws Exception {
-        // Mock DBBroker to throw an exception
+      
         when(mockDBBroker.vrati(koncert)).thenThrow(new SQLException("Database error"));
 
         Exception exception = assertThrows(Exception.class, () -> soVratiKoncerte.execute(koncert));

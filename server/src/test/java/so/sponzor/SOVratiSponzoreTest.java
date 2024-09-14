@@ -25,12 +25,12 @@ public class SOVratiSponzoreTest {
     public void setUp() throws Exception {
         soVratiSponzore = new SOVratiSponzore();
         mockDBBroker = mock(DBBroker.class);
-        sponzor = new Sponzor(); // Example Sponzor object
+        sponzor = new Sponzor(); 
 
-        // Use reflection to set the private instance field in DBBroker
+       
         Field instanceField = DBBroker.class.getDeclaredField("instance");
-        instanceField.setAccessible(true); // Make the field accessible
-        instanceField.set(null, mockDBBroker); // Set the mock to the instance field
+        instanceField.setAccessible(true); 
+        instanceField.set(null, mockDBBroker); 
     }
 
     @Test
@@ -47,27 +47,27 @@ public class SOVratiSponzoreTest {
 
     @Test
     public void testExecuteWithValidSponzor() throws Exception {
-        // Mock the behavior of DBBroker to return a list of Sponzor objects
+    
         ArrayList<ApstraktniDomenskiObjekat> mockSponzorList = new ArrayList<>();
         mockSponzorList.add(sponzor);
         when(mockDBBroker.vrati(sponzor)).thenReturn(mockSponzorList);
 
-        // Execute the system operation
+     
         soVratiSponzore.execute(sponzor);
 
-        // Verify that the list of Sponzori is populated
+      
         ArrayList<Sponzor> listaSponzora = soVratiSponzore.getLista();
         assertNotNull(listaSponzora);
         assertEquals(1, listaSponzora.size());
         assertEquals(sponzor, listaSponzora.get(0));
 
-        // Verify that DBBroker's vrati method was called with the correct argument
+     
         verify(mockDBBroker, times(1)).vrati(sponzor);
     }
 
     @Test
     public void testExecuteWithException() throws Exception {
-        // Mock DBBroker to throw an exception
+      
         when(mockDBBroker.vrati(sponzor)).thenThrow(new SQLException("Database error"));
 
         Exception exception = assertThrows(Exception.class, () -> soVratiSponzore.execute(sponzor));

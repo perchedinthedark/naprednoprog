@@ -24,9 +24,9 @@ public class SOObrisiMuzicaraTest {
     public void setUp() throws Exception {
         soObrisiMuzicara = new SOObrisiMuzicara();
         mockDBBroker = mock(DBBroker.class);
-        muzicar = new Muzicar(); // Example Muzicar object
+        muzicar = new Muzicar();
 
-        // Use reflection to set the private instance field in DBBroker
+     
         Field instanceField = DBBroker.class.getDeclaredField("instance");
         instanceField.setAccessible(true);
         instanceField.set(null, mockDBBroker);
@@ -46,16 +46,16 @@ public class SOObrisiMuzicaraTest {
 
     @Test
     public void testExecuteValidMuzicar() throws Exception {
-        // Execute the system operation
+     
         soObrisiMuzicara.execute(muzicar);
 
-        // Verify that DBBroker's obrisi method was called with the correct argument
+      
         verify(mockDBBroker, times(1)).obrisi(muzicar);
     }
 
     @Test
     public void testExecuteWithException() throws Exception {
-        // Mock DBBroker to throw an exception
+     
         doThrow(new SQLException("Database error")).when(mockDBBroker).obrisi(muzicar);
 
         Exception exception = assertThrows(Exception.class, () -> soObrisiMuzicara.execute(muzicar));

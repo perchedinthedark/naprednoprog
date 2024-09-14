@@ -30,7 +30,7 @@ public class SOIzmeniKoncertTest {
         mockDBBroker = mock(DBBroker.class);
         koncert = new Koncert();
 
-        // Use reflection to set the private instance field in DBBroker
+      
         Field instanceField = DBBroker.class.getDeclaredField("instance");
         instanceField.setAccessible(true);
         instanceField.set(null, mockDBBroker);
@@ -38,24 +38,24 @@ public class SOIzmeniKoncertTest {
 
     @Test
     public void testValidateValidKoncert() throws Exception {
-        // Set up a valid concert
-        koncert.setDatumPocetka(new Timestamp(new Date().getTime() + 86400000)); // 1 day in future
-        koncert.setDatumZavrsetka(new Timestamp(new Date().getTime() + 172800000)); // 2 days in future
+     
+        koncert.setDatumPocetka(new Timestamp(new Date().getTime() + 86400000)); 
+        koncert.setDatumZavrsetka(new Timestamp(new Date().getTime() + 172800000));
         koncert.setKapacitetKoncerta(50);
         ArrayList<Izvodjac> izvodjaci = new ArrayList<>();
         izvodjaci.add(new Izvodjac());
         izvodjaci.add(new Izvodjac());
         koncert.setIzvodjaci(izvodjaci);
 
-        // Validate without throwing exceptions
+       
         assertDoesNotThrow(() -> soIzmeniKoncert.validate(koncert));
     }
 
     @Test
     public void testValidateInvalidKapacitet() {
-        // Set up invalid concert capacity
-        koncert.setDatumPocetka(new Timestamp(new Date().getTime() + 86400000)); // 1 day in future
-        koncert.setDatumZavrsetka(new Timestamp(new Date().getTime() + 172800000)); // 2 days in future
+      
+        koncert.setDatumPocetka(new Timestamp(new Date().getTime() + 86400000)); 
+        koncert.setDatumZavrsetka(new Timestamp(new Date().getTime() + 172800000));
         koncert.setKapacitetKoncerta(1); // Invalid capacity
         koncert.setIzvodjaci(new ArrayList<>());
 
@@ -65,11 +65,11 @@ public class SOIzmeniKoncertTest {
 
     @Test
     public void testValidateInvalidIzvodjaci() {
-        // Set up a concert with fewer than 2 performers
-        koncert.setDatumPocetka(new Timestamp(new Date().getTime() + 86400000)); // 1 day in future
-        koncert.setDatumZavrsetka(new Timestamp(new Date().getTime() + 172800000)); // 2 days in future
+       
+        koncert.setDatumPocetka(new Timestamp(new Date().getTime() + 86400000)); 
+        koncert.setDatumZavrsetka(new Timestamp(new Date().getTime() + 172800000));
         koncert.setKapacitetKoncerta(50);
-        koncert.setIzvodjaci(new ArrayList<>()); // No performers
+        koncert.setIzvodjaci(new ArrayList<>()); 
 
         Exception exception = assertThrows(Exception.class, () -> soIzmeniKoncert.validate(koncert));
         assertEquals("Koncert mora imati minimalno 2 izvodjaca!", exception.getMessage());
@@ -77,9 +77,9 @@ public class SOIzmeniKoncertTest {
 
     @Test
     public void testExecuteValidKoncert() throws Exception {
-        // Set up a valid concert
-        koncert.setDatumPocetka(new Timestamp(new Date().getTime() + 86400000)); // 1 day in future
-        koncert.setDatumZavrsetka(new Timestamp(new Date().getTime() + 172800000)); // 2 days in future
+       
+        koncert.setDatumPocetka(new Timestamp(new Date().getTime() + 86400000)); 
+        koncert.setDatumZavrsetka(new Timestamp(new Date().getTime() + 172800000)); 
         koncert.setKapacitetKoncerta(50);
         ArrayList<Izvodjac> izvodjaci = new ArrayList<>();
         Izvodjac izvodjac1 = new Izvodjac();
@@ -88,22 +88,22 @@ public class SOIzmeniKoncertTest {
         izvodjaci.add(izvodjac2);
         koncert.setIzvodjaci(izvodjaci);
 
-        // Execute the system operation
+        
         soIzmeniKoncert.execute(koncert);
 
-        // Verify that DBBroker's izmeni method was called for the concert
+       
         verify(mockDBBroker, times(1)).izmeni(koncert);
 
-        // Verify that DBBroker's obrisi method was called for the first performer
+        
         verify(mockDBBroker, times(1)).obrisi(izvodjac1);
 
-        // Verify that DBBroker's dodaj method was called for each performer
+       
         verify(mockDBBroker, times(2)).dodaj(any(Izvodjac.class));
     }
 
     @Test
     public void testExecuteWithException() throws Exception {
-        // Mock DBBroker to throw an exception when modifying a concert
+      
         doThrow(new SQLException("Database error")).when(mockDBBroker).izmeni(koncert);
 
         Exception exception = assertThrows(Exception.class, () -> soIzmeniKoncert.execute(koncert));

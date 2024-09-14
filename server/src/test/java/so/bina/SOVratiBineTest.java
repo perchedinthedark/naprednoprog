@@ -25,12 +25,12 @@ public class SOVratiBineTest {
     public void setUp() throws Exception {
         soVratiBine = new SOVratiBine();
         mockDBBroker = mock(DBBroker.class);
-        bina = new Bina(); // Example Bina object
+        bina = new Bina(); 
 
-        // Use reflection to set the private instance field
+       
         Field instanceField = DBBroker.class.getDeclaredField("instance");
-        instanceField.setAccessible(true); // Make the field accessible
-        instanceField.set(null, mockDBBroker); // Set the mock to the instance field
+        instanceField.setAccessible(true); 
+        instanceField.set(null, mockDBBroker);
     }
 
     @Test
@@ -47,27 +47,27 @@ public class SOVratiBineTest {
 
     @Test
     public void testExecuteWithValidBina() throws Exception {
-        // Mock the behavior of DBBroker to return a list of Bina objects
+       
         ArrayList<ApstraktniDomenskiObjekat> mockBinaList = new ArrayList<>();
         mockBinaList.add(bina);
         when(mockDBBroker.vrati(bina)).thenReturn(mockBinaList);
 
-        // Execute the system operation
+       
         soVratiBine.execute(bina);
 
-        // Verify that the list of Bina is populated
+       
         ArrayList<Bina> listaBina = soVratiBine.getLista();
         assertNotNull(listaBina);
         assertEquals(1, listaBina.size());
         assertEquals(bina, listaBina.get(0));
 
-        // Verify that DBBroker's vrati method was called with the correct argument
+      
         verify(mockDBBroker, times(1)).vrati(bina);
     }
 
     @Test
     public void testExecuteWithException() throws Exception {
-        // Mock DBBroker to throw an exception
+     
         when(mockDBBroker.vrati(bina)).thenThrow(new SQLException("Database error"));
 
         Exception exception = assertThrows(Exception.class, () -> soVratiBine.execute(bina));

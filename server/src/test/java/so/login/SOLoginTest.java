@@ -30,10 +30,10 @@ public class SOLoginTest {
         validAdmin = new Administrator(1L, "John", "Doe", "john", "pass123");
         invalidAdmin = new Administrator(1L, "Jane", "Doe", "jane", "wrongpass");
 
-        // Use reflection to set the private instance field in DBBroker
+      
         Field instanceField = DBBroker.class.getDeclaredField("instance");
-        instanceField.setAccessible(true); // Make the field accessible
-        instanceField.set(null, mockDBBroker); // Set the mock to the instance field
+        instanceField.setAccessible(true);
+        instanceField.set(null, mockDBBroker); 
     }
 
     @Test
@@ -50,41 +50,41 @@ public class SOLoginTest {
 
     @Test
     public void testExecuteWithValidCredentials() throws Exception {
-        // Mock the behavior of DBBroker to return a list of Administrators
+       
         ArrayList<Administrator> mockAdminList = new ArrayList<>();
         mockAdminList.add(validAdmin);
         when(mockDBBroker.vrati(validAdmin)).thenReturn((ArrayList<ApstraktniDomenskiObjekat>)(ArrayList<?>) mockAdminList);
 
-        // Execute the login operation
+     
         soLogin.execute(validAdmin);
 
-        // Verify that the logged-in admin is correct
+       
         Administrator loggedInAdmin = soLogin.getUlogovani();
         assertNotNull(loggedInAdmin);
         assertEquals(validAdmin, loggedInAdmin);
 
-        // Verify that DBBroker's vrati method was called with the correct argument
+       
         verify(mockDBBroker, times(1)).vrati(validAdmin);
     }
 
     @Test
     public void testExecuteWithInvalidCredentials() throws Exception {
-        // Mock the behavior of DBBroker to return a list of Administrators with incorrect credentials
+       
         ArrayList<Administrator> mockAdminList = new ArrayList<>();
         mockAdminList.add(invalidAdmin);
         when(mockDBBroker.vrati(validAdmin)).thenReturn((ArrayList<ApstraktniDomenskiObjekat>)(ArrayList<?>) mockAdminList);
 
-        // Execute the login operation and expect an exception
+      
         Exception exception = assertThrows(Exception.class, () -> soLogin.execute(validAdmin));
         assertEquals("Ne postoji administrator sa tim kredencijalima.", exception.getMessage());
 
-        // Verify that DBBroker's vrati method was called with the correct argument
+      
         verify(mockDBBroker, times(1)).vrati(validAdmin);
     }
 
     @Test
     public void testExecuteWithSQLException() throws Exception {
-        // Mock DBBroker to throw an exception
+      
         when(mockDBBroker.vrati(validAdmin)).thenThrow(new SQLException("Database error"));
 
         Exception exception = assertThrows(Exception.class, () -> soLogin.execute(validAdmin));

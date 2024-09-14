@@ -24,9 +24,9 @@ public class SOObrisiKoncertTest {
     public void setUp() throws Exception {
         soObrisiKoncert = new SOObrisiKoncert();
         mockDBBroker = mock(DBBroker.class);
-        koncert = new Koncert(); // Example Koncert object
+        koncert = new Koncert(); 
 
-        // Use reflection to set the private instance field in DBBroker
+      
         Field instanceField = DBBroker.class.getDeclaredField("instance");
         instanceField.setAccessible(true); 
         instanceField.set(null, mockDBBroker); 
@@ -46,16 +46,16 @@ public class SOObrisiKoncertTest {
 
     @Test
     public void testExecuteWithValidKoncert() throws Exception {
-        // Execute the system operation
+        
         soObrisiKoncert.execute(koncert);
 
-        // Verify that DBBroker's obrisi method was called with the correct argument
+       
         verify(mockDBBroker, times(1)).obrisi(koncert);
     }
 
     @Test
     public void testExecuteWithException() throws Exception {
-        // Mock DBBroker to throw an exception
+     
         doThrow(new SQLException("Database error")).when(mockDBBroker).obrisi(koncert);
 
         Exception exception = assertThrows(Exception.class, () -> soObrisiKoncert.execute(koncert));
