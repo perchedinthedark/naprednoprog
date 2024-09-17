@@ -39,11 +39,27 @@ public class SponzorTest {
         sponzor.setSponzorID(2L);
         assertEquals(2L, sponzor.getSponzorID());
     }
+    
+    @Test
+    public void testInvalidSponzorIDThrowsException() {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            sponzor.setSponzorID(null);
+        });
+        assertEquals("Sponzor ID mora biti pozitivan broj.", exception.getMessage());
+    }
 
     @Test
     public void testSetAndGetNaziv() {
         sponzor.setNaziv("XYZ Media");
         assertEquals("XYZ Media", sponzor.getNaziv());
+    }
+    
+    @Test
+    public void testInvalidNazivThrowsException() {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            sponzor.setNaziv(null);
+        });
+        assertEquals("Naziv ne može biti prazan ili null.", exception.getMessage());
     }
 
     @Test
@@ -51,11 +67,28 @@ public class SponzorTest {
         sponzor.setIznosKontribucije(20000.0);
         assertEquals(20000.0, sponzor.getIznosKontribucije());
     }
+    
+    @Test
+    public void testInvalidIznosKontribucijeThrowsException() {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            sponzor.setIznosKontribucije(-1000);
+        });
+        assertEquals("Iznos kontribucije ne može biti negativan.", exception.getMessage());
+    }
+
 
     @Test
     public void testSetAndGetTipSponzorstva() {
         sponzor.setTipSponzorstva("Media");
         assertEquals("Media", sponzor.getTipSponzorstva());
+    }
+    
+    @Test
+    public void testInvalidTipSponzorstvaThrowsException() {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            sponzor.setTipSponzorstva(null);
+        });
+        assertEquals("Tip sponzorstva ne može biti prazan ili null.", exception.getMessage());
     }
 
     @Test

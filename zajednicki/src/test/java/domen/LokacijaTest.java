@@ -41,12 +41,28 @@ public class LokacijaTest {
         lokacija.setLokacjiaID(2L);
         assertEquals(2L, lokacija.getLokacjiaID());
     }
+    
+    @Test
+    public void testInvalidLokacijaIDThrowsException() {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            lokacija.setLokacjiaID(null);
+        });
+        assertEquals("Lokacija ID mora biti pozitivan broj.", exception.getMessage());
+    }
 
     @Test
     public void testGetAndSetNaziv() {
         assertEquals("Stadium", lokacija.getNaziv());
         lokacija.setNaziv("Arena");
         assertEquals("Arena", lokacija.getNaziv());
+    }
+    
+    @Test
+    public void testInvalidNazivThrowsException() {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            lokacija.setNaziv(null);
+        });
+        assertEquals("Naziv ne može biti prazan ili null.", exception.getMessage());
     }
 
     @Test
@@ -55,12 +71,28 @@ public class LokacijaTest {
         lokacija.setAdresa("456 Park Ave");
         assertEquals("456 Park Ave", lokacija.getAdresa());
     }
+    
+    @Test
+    public void testInvalidAdresaThrowsException() {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            lokacija.setAdresa(null);
+        });
+        assertEquals("Adresa ne može biti prazna ili null.", exception.getMessage());
+    }
 
     @Test
     public void testGetAndSetTip() {
         assertEquals("Open Air", lokacija.getTip());
         lokacija.setTip("Indoor");
         assertEquals("Indoor", lokacija.getTip());
+    }
+    
+    @Test
+    public void testInvalidTipThrowsException() {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            lokacija.setTip(null);
+        });
+        assertEquals("Tip ne može biti prazan ili null.", exception.getMessage());
     }
 
     @Test
@@ -69,12 +101,28 @@ public class LokacijaTest {
         lokacija.setKontakt("987-654-3210");
         assertEquals("987-654-3210", lokacija.getKontakt());
     }
+    
+    @Test
+    public void testInvalidKontaktThrowsException() {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            lokacija.setKontakt(null);
+        });
+        assertEquals("Kontakt ne može biti prazan ili null.", exception.getMessage());
+    }
 
     @Test
     public void testGetAndSetVlasnik() {
         assertEquals("City Council", lokacija.getVlasnik());
         lokacija.setVlasnik("Private Owner");
         assertEquals("Private Owner", lokacija.getVlasnik());
+    }
+    
+    @Test
+    public void testInvalidVlasnikThrowsException() {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            lokacija.setVlasnik(null);
+        });
+        assertEquals("Vlasnik ne može biti prazan ili null.", exception.getMessage());
     }
 
     @Test

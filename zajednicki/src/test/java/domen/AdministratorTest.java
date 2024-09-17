@@ -38,9 +38,17 @@ public class AdministratorTest {
     }
 
     @Test
-    public void testSetIme() {
+    public void testSetImeValid() {
         administrator.setIme("Jane");
         assertEquals("Jane", administrator.getIme());
+    }
+    
+    @Test
+    public void testSetImeInvalid() {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            administrator.setIme("");
+        });
+        assertEquals("Ime ne može biti prazno ili null.", exception.getMessage());
     }
 
     @Test
@@ -49,9 +57,17 @@ public class AdministratorTest {
     }
 
     @Test
-    public void testSetPrezime() {
+    public void testSetPrezimeValid() {
         administrator.setPrezime("Smith");
         assertEquals("Smith", administrator.getPrezime());
+    }
+    
+    @Test
+    public void testSetPrezimeInvalid() {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            administrator.setPrezime("");
+        });
+        assertEquals("Prezime ne može biti prazno ili null.", exception.getMessage());
     }
 
     @Test
@@ -60,9 +76,17 @@ public class AdministratorTest {
     }
 
     @Test
-    public void testSetUsername() {
+    public void testSetUsernameValid() {
         administrator.setUsername("janesmith");
         assertEquals("janesmith", administrator.getUsername());
+    }
+    
+    @Test
+    public void testSetUsernameInvalid() {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            administrator.setUsername("");
+        });
+        assertEquals("Korisničko ime ne može biti prazno ili null.", exception.getMessage());
     }
 
     @Test
@@ -71,11 +95,33 @@ public class AdministratorTest {
     }
 
     @Test
-    public void testSetPassword() {
+    public void testSetPasswordValid() {
         administrator.setPassword("newpassword");
         assertEquals("newpassword", administrator.getPassword());
     }
+    
+    @Test
+    public void testSetPasswordInvalid() {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            administrator.setPassword("");
+        });
+        assertEquals("Lozinka mora imati najmanje 6 karaktera.", exception.getMessage());
+    }
 
+    @Test
+    public void testSetAdministratorIDValid() {
+        administrator.setAdministratorID(2L);
+        assertEquals(2L, administrator.getAdministratorID());
+    }
+
+    @Test
+    public void testSetAdministratorIDInvalid() {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            administrator.setAdministratorID(0L);
+        });
+        assertEquals("Administrator ID mora biti pozitivan broj.", exception.getMessage());
+    }
+    
     @Test
     public void testNazivTabele() {
         assertEquals(" administrator ", administrator.nazivTabele());

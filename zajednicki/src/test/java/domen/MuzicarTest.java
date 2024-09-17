@@ -41,11 +41,27 @@ public class MuzicarTest {
         muzicar.setMuzicarID(5L);
         assertEquals(5L, muzicar.getMuzicarID());
     }
+    
+    @Test
+    public void testInvalidMuzicarIDThrowsException() {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            muzicar.setMuzicarID(null);
+        });
+        assertEquals("Muzicar ID mora biti pozitivan broj.", exception.getMessage());
+    }
 
     @Test
     public void testSetAndGetIme() {
         muzicar.setIme("Alice Smith");
         assertEquals("Alice Smith", muzicar.getIme());
+    }
+    
+    @Test
+    public void testInvalidImeThrowsException() {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            muzicar.setIme(null);
+        });
+        assertEquals("Ime ne može biti prazno ili null.", exception.getMessage());
     }
 
     @Test
@@ -53,17 +69,42 @@ public class MuzicarTest {
         muzicar.setInstrument("Piano");
         assertEquals("Piano", muzicar.getInstrument());
     }
+    
+    @Test
+    public void testInvalidInstrumentThrowsException() {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            muzicar.setInstrument(null);
+        });
+        assertEquals("Instrument ne može biti prazan ili null.", exception.getMessage());
+    }
+
 
     @Test
     public void testSetAndGetZanr() {
         muzicar.setZanr("Jazz");
         assertEquals("Jazz", muzicar.getZanr());
     }
+    
+    @Test
+    public void testInvalidZanrThrowsException() {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            muzicar.setZanr(null);
+        });
+        assertEquals("Žanr ne može biti prazan ili null.", exception.getMessage());
+    }
 
     @Test
     public void testSetAndGetKontakt() {
         muzicar.setKontakt("987-654-3210");
         assertEquals("987-654-3210", muzicar.getKontakt());
+    }
+    
+    @Test
+    public void testInvalidKontaktThrowsException() {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            muzicar.setKontakt(null);
+        });
+        assertEquals("Kontakt informacije ne mogu biti prazne ili null.", exception.getMessage());
     }
 
     @Test

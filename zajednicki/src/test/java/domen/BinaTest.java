@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class BinaTest {
 
-    // Test constructor and getter methods
+    
     @Test
     public void testBinaConstructorAndGetters() {
         Lokacija lokacija = new Lokacija(1L, "Lokacija A", "Adresa A", "Tip A", "Kontakt A", "Vlasnik A");
@@ -20,7 +20,7 @@ public class BinaTest {
         assertEquals(oprema, bina.getOprema());
     }
 
-    // Test setters and ensure they modify the object correctly
+  
     @Test
     public void testSetters() {
         Bina bina = new Bina();
@@ -40,26 +40,43 @@ public class BinaTest {
         assertEquals(oprema, bina.getOprema());
     }
 
-    // Test toString method to ensure it returns the correct name
+    
     @Test
     public void testToString() {
-        Bina bina = new Bina(1L, "Bina A", 500, null, null);
-        assertEquals("Bina A", bina.toString());
+    	   Lokacija lokacija = new Lokacija(1L, "Lokacija A", "Adresa A", "Tip A", "Kontakt A", "Vlasnik A");
+    	   Oprema oprema = new Oprema(1L, "Oprema A", "Opis A", 1000.0);
+           Bina bina = new Bina(1L, "Bina A", 500, lokacija, oprema);
+
+           assertEquals("Bina A", bina.toString());
     }
 
-    // Test edge case where fields are null or not set
     @Test
-    public void testBinaWithNullFields() {
-        Bina bina = new Bina(null, null, 0, null, null);
-        
-        assertNull(bina.getBinaID());
-        assertNull(bina.getNaziv());
-        assertNull(bina.getLokacija());
-        assertNull(bina.getOprema());
-        assertEquals(0, bina.getKapacitet());
+    public void testSetNazivInvalid() {
+        Bina bina = new Bina();
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            bina.setNaziv("");
+        });
+        assertEquals("Naziv ne može biti prazan ili null.", exception.getMessage());
     }
 
-    // Test that the join method returns the correct SQL JOIN string
+    @Test
+    public void testSetKapacitetInvalid() {
+        Bina bina = new Bina();
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            bina.setKapacitet(-1);
+        });
+        assertEquals("Kapacitet mora biti veći ili jednak nuli.", exception.getMessage());
+    }
+
+    @Test
+    public void testSetBinaIDInvalid() {
+        Bina bina = new Bina();
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            bina.setBinaID(0L);
+        });
+        assertEquals("Bina ID mora biti pozitivan broj.", exception.getMessage());
+    }
+   
     @Test
     public void testJoinMethod() {
         Bina bina = new Bina();
@@ -70,40 +87,40 @@ public class BinaTest {
 
     @Test
     public void testUslovMethod() {
-        // Create a Bina object with a specific BinaID
+      
         Bina bina = new Bina();
         bina.setBinaID(1L);
 
-        // The expected SQL WHERE clause condition based on the BinaID
+      
         String expectedUslov = " binaID = 1";
 
-        // Assert that the uslov method generates the correct SQL condition
+    
         assertEquals(expectedUslov, bina.uslov());
     }
     
 
-    // Test that the koloneZaInsert method returns an empty string (since not implemented)
+   
     @Test
     public void testKoloneZaInsert() {
         Bina bina = new Bina();
         assertEquals("", bina.koloneZaInsert());
     }
 
-    // Test that the vrednostiZaInsert method returns an empty string (since not implemented)
+   
     @Test
     public void testVrednostiZaInsert() {
         Bina bina = new Bina();
         assertEquals("", bina.vrednostiZaInsert());
     }
 
-    // Test that the vrednostiZaUpdate method returns an empty string (since not implemented)
+   
     @Test
     public void testVrednostiZaUpdate() {
         Bina bina = new Bina();
         assertEquals("", bina.vrednostiZaUpdate());
     }
 
-    // Test that the uslovZaSelect method returns an empty string (since not implemented)
+   
     @Test
     public void testUslovZaSelect() {
         Bina bina = new Bina();
