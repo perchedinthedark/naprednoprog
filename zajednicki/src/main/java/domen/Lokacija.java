@@ -50,12 +50,12 @@ public class Lokacija extends ApstraktniDomenskiObjekat {
      * @param vlasnik Vlasnik lokacije
      */
     public Lokacija(Long lokacjiaID, String naziv, String adresa, String tip, String kontakt, String vlasnik) {
-        this.lokacjiaID = lokacjiaID;
-        this.naziv = naziv;
-        this.adresa = adresa;
-        this.tip = tip;
-        this.kontakt = kontakt;
-        this.vlasnik = vlasnik;
+    	  setLokacjiaID(lokacjiaID);
+          setNaziv(naziv);
+          setAdresa(adresa);
+          setTip(tip);
+          setKontakt(kontakt);
+          setVlasnik(vlasnik);
     }
 
     /** 
@@ -71,8 +71,12 @@ public class Lokacija extends ApstraktniDomenskiObjekat {
      * Postavlja vlasnika lokacije.
      * 
      * @param vlasnik Vlasnik lokacije
+     * @throws IllegalArgumentException ako je vlasnik null ili prazan.
      */
     public void setVlasnik(String vlasnik) {
+    	 if (vlasnik == null || vlasnik.trim().isEmpty()) {
+             throw new IllegalArgumentException("Vlasnik ne može biti prazan ili null.");
+         }
         this.vlasnik = vlasnik;
     }
 
@@ -89,8 +93,12 @@ public class Lokacija extends ApstraktniDomenskiObjekat {
      * Postavlja identifikator lokacije.
      * 
      * @param lokacjiaID Jedinstveni identifikator lokacije
+     * @throws IllegalArgumentException ako je lokacjiaID null ili manji od 1.
      */
     public void setLokacjiaID(Long lokacjiaID) {
+    	if (lokacjiaID == null || lokacjiaID <= 0) {
+            throw new IllegalArgumentException("Lokacija ID mora biti pozitivan broj.");
+        }
         this.lokacjiaID = lokacjiaID;
     }
 
@@ -107,8 +115,12 @@ public class Lokacija extends ApstraktniDomenskiObjekat {
      * Postavlja naziv lokacije.
      * 
      * @param naziv Naziv lokacije
+     * @throws IllegalArgumentException ako je naziv null ili prazan.
      */
     public void setNaziv(String naziv) {
+    	if (naziv == null || naziv.trim().isEmpty()) {
+            throw new IllegalArgumentException("Naziv ne može biti prazan ili null.");
+        }
         this.naziv = naziv;
     }
 
@@ -125,8 +137,12 @@ public class Lokacija extends ApstraktniDomenskiObjekat {
      * Postavlja adresu lokacije.
      * 
      * @param adresa Adresa lokacije
+     * @throws IllegalArgumentException ako je adresa null ili prazna.
      */
     public void setAdresa(String adresa) {
+    	if (adresa == null || adresa.trim().isEmpty()) {
+            throw new IllegalArgumentException("Adresa ne može biti prazna ili null.");
+        }
         this.adresa = adresa;
     }
 
@@ -143,8 +159,12 @@ public class Lokacija extends ApstraktniDomenskiObjekat {
      * Postavlja tip lokacije.
      * 
      * @param tip Tip lokacije
+     * @throws IllegalArgumentException ako je tip null ili prazan.
      */
     public void setTip(String tip) {
+    	 if (tip == null || tip.trim().isEmpty()) {
+             throw new IllegalArgumentException("Tip ne može biti prazan ili null.");
+         }
         this.tip = tip;
     }
 
@@ -161,8 +181,12 @@ public class Lokacija extends ApstraktniDomenskiObjekat {
      * Postavlja kontakt informacije za lokaciju.
      * 
      * @param kontakt Kontakt za lokaciju
+     * @throws IllegalArgumentException ako je kontakt null ili prazan.
      */
     public void setKontakt(String kontakt) {
+    	if (kontakt == null || kontakt.trim().isEmpty()) {
+            throw new IllegalArgumentException("Kontakt ne može biti prazan ili null.");
+        }
         this.kontakt = kontakt;
     }
 

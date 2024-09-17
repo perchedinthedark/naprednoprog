@@ -62,14 +62,14 @@ public class Koncert extends ApstraktniDomenskiObjekat {
      * @param izvodjaci Lista izvođača na koncertu
      */
     public Koncert(Long koncertID, Timestamp datumPocetka, Timestamp datumZavrsetka, int kapacitetKoncerta, Sponzor sponzor, Bina bina, Administrator administrator, ArrayList<Izvodjac> izvodjaci) {
-        this.koncertID = koncertID;
-        this.datumPocetka = datumPocetka;
-        this.datumZavrsetka = datumZavrsetka;
-        this.kapacitetKoncerta = kapacitetKoncerta;
-        this.sponzor = sponzor;
-        this.bina = bina;
-        this.administrator = administrator;
-        this.izvodjaci = izvodjaci;
+    	setKoncertID(koncertID);
+        setDatumPocetka(datumPocetka);
+        setDatumZavrsetka(datumZavrsetka);
+        setKapacitetKoncerta(kapacitetKoncerta);
+        setSponzor(sponzor);
+        setBina(bina);
+        setAdministrator(administrator);
+        setIzvodjaci(izvodjaci);
     }
 
     /** 
@@ -85,8 +85,12 @@ public class Koncert extends ApstraktniDomenskiObjekat {
      * Postavlja identifikator koncerta.
      * 
      * @param koncertID Jedinstveni identifikator koncerta
+     * @throws IllegalArgumentException ako je koncertID null ili manji od 1.
      */
     public void setKoncertID(Long koncertID) {
+    	if (koncertID == null || koncertID <= 0) {
+            throw new IllegalArgumentException("Koncert ID mora biti pozitivan broj.");
+        }
         this.koncertID = koncertID;
     }
 
@@ -103,8 +107,12 @@ public class Koncert extends ApstraktniDomenskiObjekat {
      * Postavlja datum početka koncerta.
      * 
      * @param datumPocetka Datum i vreme početka koncerta
+     * @throws IllegalArgumentException ako je datum početka null.
      */
     public void setDatumPocetka(Timestamp datumPocetka) {
+    	if (datumPocetka == null) {
+            throw new IllegalArgumentException("Datum početka ne može biti null.");
+        }
         this.datumPocetka = datumPocetka;
     }
 
@@ -121,8 +129,12 @@ public class Koncert extends ApstraktniDomenskiObjekat {
      * Postavlja datum završetka koncerta.
      * 
      * @param datumZavrsetka Datum i vreme završetka koncerta
+     * @throws IllegalArgumentException ako je datum završetka null.
      */
     public void setDatumZavrsetka(Timestamp datumZavrsetka) {
+    	if (datumZavrsetka == null) {
+            throw new IllegalArgumentException("Datum završetka ne može biti null.");
+        }
         this.datumZavrsetka = datumZavrsetka;
     }
 
@@ -139,8 +151,12 @@ public class Koncert extends ApstraktniDomenskiObjekat {
      * Postavlja kapacitet koncerta.
      * 
      * @param kapacitetKoncerta Maksimalan broj posetilaca na koncertu
+     * @throws IllegalArgumentException ako je kapacitet negativan.
      */
     public void setKapacitetKoncerta(int kapacitetKoncerta) {
+    	 if (kapacitetKoncerta <= 0) {
+             throw new IllegalArgumentException("Kapacitet mora biti pozitivan broj.");
+         }
         this.kapacitetKoncerta = kapacitetKoncerta;
     }
 
@@ -157,8 +173,12 @@ public class Koncert extends ApstraktniDomenskiObjekat {
      * Postavlja sponzora koncerta.
      * 
      * @param sponzor Sponzor koncerta
+     * @throws IllegalArgumentException ako je sponzor null.
      */
     public void setSponzor(Sponzor sponzor) {
+    	 if (sponzor == null) {
+             throw new IllegalArgumentException("Sponzor ne može biti null.");
+         }
         this.sponzor = sponzor;
     }
 
@@ -175,8 +195,12 @@ public class Koncert extends ApstraktniDomenskiObjekat {
      * Postavlja binu na kojoj će se održati koncert.
      * 
      * @param bina Bina na kojoj će se koncert održati
+     * @throws IllegalArgumentException ako je bina null.
      */
     public void setBina(Bina bina) {
+    	if (bina == null) {
+            throw new IllegalArgumentException("Bina ne može biti null.");
+        }
         this.bina = bina;
     }
 
@@ -193,8 +217,12 @@ public class Koncert extends ApstraktniDomenskiObjekat {
      * Postavlja administratora koncerta.
      * 
      * @param administrator Administrator koncerta
+     * @throws IllegalArgumentException ako je administrator null.
      */
     public void setAdministrator(Administrator administrator) {
+    	 if (administrator == null) {
+             throw new IllegalArgumentException("Administrator ne može biti null.");
+         }
         this.administrator = administrator;
     }
 

@@ -54,11 +54,11 @@ public class Bina extends ApstraktniDomenskiObjekat {
      * @param oprema Oprema koja je dostupna na bini
      */
     public Bina(Long binaID, String naziv, int kapacitet, Lokacija lokacija, Oprema oprema) {
-        this.binaID = binaID;
-        this.naziv = naziv;
-        this.kapacitet = kapacitet;
-        this.lokacija = lokacija;
-        this.oprema = oprema;
+    	 setBinaID(binaID);
+         setNaziv(naziv);
+         setKapacitet(kapacitet);
+         setLokacija(lokacija);
+         setOprema(oprema);
     }
 
     /**
@@ -74,8 +74,12 @@ public class Bina extends ApstraktniDomenskiObjekat {
      * Postavlja novu lokaciju za Binom.
      * 
      * @param lokacija Nova lokacija bine.
+     * @throws IllegalArgumentException ako je lokacija null.
      */
     public void setLokacija(Lokacija lokacija) {
+    	if (lokacija == null) {
+            throw new IllegalArgumentException("Lokacija ne može biti null.");
+        }
         this.lokacija = lokacija;
     }
 
@@ -92,8 +96,12 @@ public class Bina extends ApstraktniDomenskiObjekat {
      * Postavlja jedinstveni identifikator za Binu.
      * 
      * @param binaID Jedinstveni identifikator bine.
+     * @throws IllegalArgumentException ako je binaID null ili manji od 1.
      */
     public void setBinaID(Long binaID) {
+    	 if (binaID == null || binaID <= 0) {
+             throw new IllegalArgumentException("Bina ID mora biti pozitivan broj.");
+         }
         this.binaID = binaID;
     }
 
@@ -110,8 +118,12 @@ public class Bina extends ApstraktniDomenskiObjekat {
      * Postavlja naziv za Binu.
      * 
      * @param naziv Novi naziv bine.
+     * @throws IllegalArgumentException ako je naziv null ili prazan.
      */
     public void setNaziv(String naziv) {
+    	if (naziv == null || naziv.trim().isEmpty()) {
+            throw new IllegalArgumentException("Naziv ne može biti prazan ili null.");
+        }
         this.naziv = naziv;
     }
 
@@ -121,6 +133,7 @@ public class Bina extends ApstraktniDomenskiObjekat {
      * @return Kapacitet bine.
      */
     public int getKapacitet() {
+    	
         return kapacitet;
     }
 
@@ -128,8 +141,12 @@ public class Bina extends ApstraktniDomenskiObjekat {
      * Postavlja kapacitet za Binu.
      * 
      * @param kapacitet Novi kapacitet bine.
+     * @throws IllegalArgumentException ako je kapacitet manji od 0.
      */
     public void setKapacitet(int kapacitet) {
+    	if (kapacitet < 0) {
+            throw new IllegalArgumentException("Kapacitet mora biti veći ili jednak nuli.");
+        }
         this.kapacitet = kapacitet;
     }
 
@@ -146,8 +163,12 @@ public class Bina extends ApstraktniDomenskiObjekat {
      * Postavlja opremu za Binu.
      * 
      * @param oprema Nova oprema bine.
+     * @throws IllegalArgumentException ako je oprema null.
      */
     public void setOprema(Oprema oprema) {
+    	 if (oprema == null) {
+             throw new IllegalArgumentException("Oprema ne može biti null.");
+         }
         this.oprema = oprema;
     }
 

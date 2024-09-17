@@ -41,10 +41,10 @@ public class Sponzor extends ApstraktniDomenskiObjekat {
      * @param tipSponzorstva Tip sponzorstva
      */
     public Sponzor(Long sponzorID, String naziv, double iznosKontribucije, String tipSponzorstva) {
-        this.sponzorID = sponzorID;
-        this.iznosKontribucije = iznosKontribucije;
-        this.tipSponzorstva = tipSponzorstva;
-        this.naziv = naziv;
+    	setSponzorID(sponzorID);
+        setNaziv(naziv);
+        setIznosKontribucije(iznosKontribucije);
+        setTipSponzorstva(tipSponzorstva);
     }
 
     /** 
@@ -60,8 +60,12 @@ public class Sponzor extends ApstraktniDomenskiObjekat {
      * Postavlja tip sponzorstva.
      * 
      * @param tipSponzorstva Tip sponzorstva
+     * @throws IllegalArgumentException ako je tip sponzorstva null ili prazan.
      */
     public void setTipSponzorstva(String tipSponzorstva) {
+    	if (tipSponzorstva == null || tipSponzorstva.trim().isEmpty()) {
+            throw new IllegalArgumentException("Tip sponzorstva ne može biti prazan ili null.");
+        }
         this.tipSponzorstva = tipSponzorstva;
     }
 
@@ -78,8 +82,12 @@ public class Sponzor extends ApstraktniDomenskiObjekat {
      * Postavlja identifikator sponzora.
      * 
      * @param sponzorID Jedinstveni identifikator sponzora
+     * @throws IllegalArgumentException ako je sponzorID null ili manji od 1.
      */
     public void setSponzorID(Long sponzorID) {
+    	 if (sponzorID == null || sponzorID <= 0) {
+             throw new IllegalArgumentException("Sponzor ID mora biti pozitivan broj.");
+         }
         this.sponzorID = sponzorID;
     }
 
@@ -96,8 +104,12 @@ public class Sponzor extends ApstraktniDomenskiObjekat {
      * Postavlja iznos kontribucije sponzora.
      * 
      * @param iznosKontribucije Iznos kontribucije sponzora
+     * @throws IllegalArgumentException ako je iznos kontribucije negativan.
      */
     public void setIznosKontribucije(double iznosKontribucije) {
+    	if (iznosKontribucije < 0) {
+            throw new IllegalArgumentException("Iznos kontribucije ne može biti negativan.");
+        }
         this.iznosKontribucije = iznosKontribucije;
     }
 
@@ -114,8 +126,12 @@ public class Sponzor extends ApstraktniDomenskiObjekat {
      * Postavlja naziv sponzora.
      * 
      * @param naziv Naziv sponzora
+     * @throws IllegalArgumentException ako je naziv null ili prazan.
      */
     public void setNaziv(String naziv) {
+    	 if (naziv == null || naziv.trim().isEmpty()) {
+             throw new IllegalArgumentException("Naziv ne može biti prazan ili null.");
+         }
         this.naziv = naziv;
     }
 

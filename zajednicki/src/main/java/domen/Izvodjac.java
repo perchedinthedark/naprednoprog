@@ -49,10 +49,10 @@ public class Izvodjac extends ApstraktniDomenskiObjekat {
      * @param muzicar Muzičar koji nastupa kao izvođač.
      */
     public Izvodjac(Koncert koncert, int rbIzvodjaca, String napomena, Muzicar muzicar) {
-        this.koncert = koncert;
-        this.rbIzvodjaca = rbIzvodjaca;
-        this.napomena = napomena;
-        this.muzicar = muzicar;
+    	 setKoncert(koncert);
+         setRbIzvodjaca(rbIzvodjaca);
+         setNapomena(napomena);
+         setMuzicar(muzicar);
     }
 
     /**
@@ -68,8 +68,12 @@ public class Izvodjac extends ApstraktniDomenskiObjekat {
      * Postavlja muzičara za izvođača.
      * 
      * @param muzicar Novi muzičar izvođača.
+     * @throws IllegalArgumentException ako je muzičar null.
      */
     public void setMuzicar(Muzicar muzicar) {
+    	if (muzicar == null) {
+            throw new IllegalArgumentException("Muzičar ne može biti null.");
+        }
         this.muzicar = muzicar;
     }
 
@@ -86,8 +90,12 @@ public class Izvodjac extends ApstraktniDomenskiObjekat {
      * Postavlja koncert za izvođača.
      * 
      * @param koncert Novi koncert izvođača.
+     * @throws IllegalArgumentException ako je koncert null.
      */
     public void setKoncert(Koncert koncert) {
+    	 if (koncert == null) {
+             throw new IllegalArgumentException("Koncert ne može biti null.");
+         }
         this.koncert = koncert;
     }
 
@@ -104,8 +112,12 @@ public class Izvodjac extends ApstraktniDomenskiObjekat {
      * Postavlja redni broj izvođača na koncertu.
      * 
      * @param rbIzvodjaca Novi redni broj izvođača.
+     * @throws IllegalArgumentException ako je redni broj izvođača manji od 1.
      */
     public void setRbIzvodjaca(int rbIzvodjaca) {
+    	if (rbIzvodjaca <= 0) {
+            throw new IllegalArgumentException("Redni broj izvođača mora biti pozitivan broj.");
+        }
         this.rbIzvodjaca = rbIzvodjaca;
     }
 
@@ -122,8 +134,12 @@ public class Izvodjac extends ApstraktniDomenskiObjekat {
      * Postavlja napomenu za izvođača.
      * 
      * @param napomena Nova napomena izvođača.
+     * @throws IllegalArgumentException ako je napomena null ili prazna.
      */
     public void setNapomena(String napomena) {
+    	 if (napomena == null || napomena.trim().isEmpty()) {
+             throw new IllegalArgumentException("Napomena ne može biti prazna ili null.");
+         }
         this.napomena = napomena;
     }
 

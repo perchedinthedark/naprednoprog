@@ -44,11 +44,11 @@ public class Muzicar extends ApstraktniDomenskiObjekat {
      * @param kontakt Kontakt informacije za muzičara
      */
     public Muzicar(Long muzicarID, String ime, String instrument, String zanr, String kontakt) {
-        this.muzicarID = muzicarID;
-        this.ime = ime;
-        this.instrument = instrument;
-        this.zanr = zanr;
-        this.kontakt = kontakt;
+    	setMuzicarID(muzicarID);
+        setIme(ime);
+        setInstrument(instrument);
+        setZanr(zanr);
+        setKontakt(kontakt);
     }
 
     /** 
@@ -64,8 +64,12 @@ public class Muzicar extends ApstraktniDomenskiObjekat {
      * Postavlja kontakt informacije za muzičara.
      * 
      * @param kontakt Kontakt informacije
+     * @throws IllegalArgumentException ako su kontakt informacije null ili prazne.
      */
     public void setKontakt(String kontakt) {
+    	if (kontakt == null || kontakt.trim().isEmpty()) {
+            throw new IllegalArgumentException("Kontakt informacije ne mogu biti prazne ili null.");
+        }
         this.kontakt = kontakt;
     }
 
@@ -82,8 +86,12 @@ public class Muzicar extends ApstraktniDomenskiObjekat {
      * Postavlja identifikator muzičara.
      * 
      * @param muzicarID Jedinstveni identifikator muzičara
+     * @throws IllegalArgumentException ako je muzicarID null ili manji od 1.
      */
     public void setMuzicarID(Long muzicarID) {
+    	if (muzicarID == null || muzicarID <= 0) {
+            throw new IllegalArgumentException("Muzicar ID mora biti pozitivan broj.");
+        }
         this.muzicarID = muzicarID;
     }
 
@@ -100,8 +108,12 @@ public class Muzicar extends ApstraktniDomenskiObjekat {
      * Postavlja ime muzičara.
      * 
      * @param ime Ime muzičara
+     * @throws IllegalArgumentException ako je ime null ili prazno.
      */
     public void setIme(String ime) {
+    	if (ime == null || ime.trim().isEmpty()) {
+            throw new IllegalArgumentException("Ime ne može biti prazno ili null.");
+        }
         this.ime = ime;
     }
 
@@ -118,8 +130,12 @@ public class Muzicar extends ApstraktniDomenskiObjekat {
      * Postavlja instrument koji muzičar svira.
      * 
      * @param instrument Instrument muzičara
+     * @throws IllegalArgumentException ako je instrument null ili prazan.
      */
     public void setInstrument(String instrument) {
+    	if (instrument == null || instrument.trim().isEmpty()) {
+            throw new IllegalArgumentException("Instrument ne može biti prazan ili null.");
+        }
         this.instrument = instrument;
     }
 
@@ -136,8 +152,12 @@ public class Muzicar extends ApstraktniDomenskiObjekat {
      * Postavlja muzički žanr muzičara.
      * 
      * @param zanr Žanr muzičara
+     * @throws IllegalArgumentException ako je žanr null ili prazan.
      */
     public void setZanr(String zanr) {
+    	if (zanr == null || zanr.trim().isEmpty()) {
+            throw new IllegalArgumentException("Žanr ne može biti prazan ili null.");
+        }
         this.zanr = zanr;
     }
 

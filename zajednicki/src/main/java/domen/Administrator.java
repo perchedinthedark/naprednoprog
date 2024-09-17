@@ -55,11 +55,11 @@ public class Administrator extends ApstraktniDomenskiObjekat {
      * @param password Lozinka administratora.
      */
     public Administrator(Long administratorID, String ime, String prezime, String username, String password) {
-        this.administratorID = administratorID;
-        this.ime = ime;
-        this.prezime = prezime;
-        this.username = username;
-        this.password = password;
+    	setAdministratorID(administratorID);
+        setIme(ime);
+        setPrezime(prezime);
+        setUsername(username);
+        setPassword(password);
     }
 
     /**
@@ -181,8 +181,12 @@ public class Administrator extends ApstraktniDomenskiObjekat {
      * Postavlja jedinstveni ID administratora.
      * 
      * @param administratorID ID administratora.
+     * @throws IllegalArgumentException ako je ID null ili manji od 1.
      */
     public void setAdministratorID(Long administratorID) {
+    	if (administratorID == null || administratorID <= 0) {
+            throw new IllegalArgumentException("Administrator ID mora biti pozitivan broj.");
+        }
         this.administratorID = administratorID;
     }
 
@@ -199,8 +203,12 @@ public class Administrator extends ApstraktniDomenskiObjekat {
      * Postavlja ime administratora.
      * 
      * @param ime Ime administratora.
+     * @throws IllegalArgumentException ako je ime null ili prazno.
      */
     public void setIme(String ime) {
+    	if (ime == null || ime.trim().isEmpty()) {
+            throw new IllegalArgumentException("Ime ne može biti prazno ili null.");
+        }
         this.ime = ime;
     }
 
@@ -208,8 +216,10 @@ public class Administrator extends ApstraktniDomenskiObjekat {
      * Vraća prezime administratora.
      * 
      * @return Prezime administratora.
+     * 
      */
     public String getPrezime() {
+    	
         return prezime;
     }
 
@@ -217,8 +227,12 @@ public class Administrator extends ApstraktniDomenskiObjekat {
      * Postavlja prezime administratora.
      * 
      * @param prezime Prezime administratora.
+     * @throws IllegalArgumentException ako je prezime null ili prazno.
      */
     public void setPrezime(String prezime) {
+    	if (prezime == null || prezime.trim().isEmpty()) {
+            throw new IllegalArgumentException("Prezime ne može biti prazno ili null.");
+        }
         this.prezime = prezime;
     }
 
@@ -235,8 +249,12 @@ public class Administrator extends ApstraktniDomenskiObjekat {
      * Postavlja korisničko ime administratora.
      * 
      * @param username Korisničko ime administratora.
+     * @throws IllegalArgumentException ako je korisničko ime null ili prazno.
      */
     public void setUsername(String username) {
+    	if (username == null || username.trim().isEmpty()) {
+            throw new IllegalArgumentException("Korisničko ime ne može biti prazno ili null.");
+        }
         this.username = username;
     }
 
@@ -253,8 +271,12 @@ public class Administrator extends ApstraktniDomenskiObjekat {
      * Postavlja lozinku administratora.
      * 
      * @param password Lozinka administratora.
+     * @throws IllegalArgumentException ako je lozinka null ili kraća od 6 karaktera.
      */
     public void setPassword(String password) {
+    	if (password == null || password.length() < 6) {
+            throw new IllegalArgumentException("Lozinka mora imati najmanje 6 karaktera.");
+        }
         this.password = password;
     }
 

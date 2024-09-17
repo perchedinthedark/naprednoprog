@@ -42,10 +42,10 @@ public class Oprema extends ApstraktniDomenskiObjekat {
      * @param cena Ukupna cena opreme
      */
     public Oprema(Long opremaID, String naziv, String opis, double cena) {
-        this.opremaID = opremaID;
-        this.naziv = naziv;
-        this.opis = opis;
-        this.ukupnaCena = cena;
+    	 setOpremaID(opremaID);
+         setNaziv(naziv);
+         setOpis(opis);
+         setUkupnaCena(cena);
     }
 
     /** 
@@ -61,8 +61,12 @@ public class Oprema extends ApstraktniDomenskiObjekat {
      * Postavlja identifikator opreme.
      * 
      * @param opremaID Jedinstveni identifikator opreme
+     * @throws IllegalArgumentException ako je opremaID null ili manji od 1.
      */
     public void setOpremaID(Long opremaID) {
+    	 if (opremaID == null || opremaID <= 0) {
+             throw new IllegalArgumentException("Oprema ID mora biti pozitivan broj.");
+         }
         this.opremaID = opremaID;
     }
 
@@ -79,8 +83,12 @@ public class Oprema extends ApstraktniDomenskiObjekat {
      * Postavlja naziv opreme.
      * 
      * @param naziv Naziv opreme
+     * @throws IllegalArgumentException ako je naziv null ili prazan.
      */
     public void setNaziv(String naziv) {
+    	if (naziv == null || naziv.trim().isEmpty()) {
+            throw new IllegalArgumentException("Naziv ne može biti prazan ili null.");
+        }
         this.naziv = naziv;
     }
 
@@ -97,8 +105,12 @@ public class Oprema extends ApstraktniDomenskiObjekat {
      * Postavlja opis opreme.
      * 
      * @param opis Opis opreme
+     * @throws IllegalArgumentException ako je opis null ili prazan.
      */
     public void setOpis(String opis) {
+    	if (opis == null || opis.trim().isEmpty()) {
+            throw new IllegalArgumentException("Opis ne može biti prazan ili null.");
+        }
         this.opis = opis;
     }
 
@@ -115,8 +127,12 @@ public class Oprema extends ApstraktniDomenskiObjekat {
      * Postavlja ukupnu cenu opreme.
      * 
      * @param cena Ukupna cena opreme
+     * @throws IllegalArgumentException ako je cena negativna.
      */
-    public void setUkupnaCena(int cena) {
+    public void setUkupnaCena(double cena) {
+    	if (cena < 0) {
+            throw new IllegalArgumentException("Cena ne može biti negativna.");
+        }
         this.ukupnaCena = cena;
     }
 
